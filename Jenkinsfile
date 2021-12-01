@@ -19,9 +19,6 @@ pipeline {
                 }             
                 stage('Testing') {
 			steps {
-				sh 'apt-get update'
-				sh 'apt-get install -y python3-dev default-libmysqlclient-dev build-essential'
-                                sh 'pip install -r flask/requirements.txt --ignore-installed'
 				sh 'python unit_test.py'
                     }
                 }
