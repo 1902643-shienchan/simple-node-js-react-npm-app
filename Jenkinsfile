@@ -3,11 +3,11 @@ pipeline {
    stages {
        stage('build') {
            steps {
-               sh 'pip install -U pip'
-               sh 'pip install -U Werkzeug'
-           sh 'pip install bandit'
-           sh 'pip install safety'
-           sh 'pip install Flask-Testing'
+               sh 'pip install -U pip3'
+               sh 'pip3 install -U Werkzeug'
+           sh 'pip3 install bandit'
+           sh 'pip3 install safety'
+           sh 'pip3 install Flask-Testing'
            }
        }
      stage('test') {
@@ -17,8 +17,8 @@ pipeline {
              }
          }
            steps {
-               sh 'pip install Flask-Testing'
-               sh 'pip install -r requirements.txt --ignore-installed'
+               sh 'pip3 install Flask-Testing'
+               sh 'pip3 install -r requirements.txt --ignore-installed'
            sh 'python functionaltest.py'
            sh 'pytest unit_test.py'
            sh 'pytest security_req_unit_test.py'
