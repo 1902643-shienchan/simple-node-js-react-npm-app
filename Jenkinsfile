@@ -3,7 +3,7 @@ pipeline {
    stages {
        stage('build') {
            steps {
-               sh 'pip install -U pip3'
+               sh 'pip3 install -U pip3'
                sh 'pip3 install -U Werkzeug'
            sh 'pip3 install bandit'
            sh 'pip3 install safety'
