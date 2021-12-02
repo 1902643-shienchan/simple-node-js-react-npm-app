@@ -1,27 +1,31 @@
 pipeline {
-        agent any
-        stages {
-		stage('Checkout SCM') {
+	agent any
+	stages {
+       stage('OWASP DependencyCheck') {
+            steps {
+                dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Lab6-Prac'
+            }
+            post {
+                success {
+                    dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+                }
+	        }
+        }
+		stage('Testing') {
+			agent {
+                docker {
+                    image 'python:3.8.0'
+                }
+            }
 			steps {
-				checkout scm
-				echo 'Building..'
+				sh 'pip install -r requirements.txt'
+				sh 'pytest unit_test.py/'
 			}
 		}
-                stage('OWASP DependencyCheck') {
-                        steps {
-                                dependencyCheck additionalArguments: '--format HTML --format XML --suppression suppression.xml', odcInstallation: 'Default'
-                        }
-                }             
-                stage('Testing') {
-			steps {
-				sh 'python unit_test.py'
-                    }
-                }
-        }
-        post {
-                success {
-                        dependencyCheckPublisher pattern: 'dependency-check-report.xml'
-                }
-        }
+	}
+	post {
+		success {
+			dependencyCheckPublisher pattern: 'dependency-check-report.xml'
+		}
+	}
 }
-
